@@ -1,50 +1,67 @@
-const playOneBtn = document.querySelector('.form__btn__play1');
+const playOneObj = {
+    score: 0,
+    display: document.querySelector('.form__score__play1'),
+    btn: document.querySelector('.form__btn__play1')
+}
+
+const playTwoObj = {
+    score: 0,
+    display: document.querySelector('.form__score__play2'),
+    btn: document.querySelector('.form__btn__play2')
+}
+
 const resetBtn = document.querySelector('.form__btn__reset');
-const playTwoBtn = document.querySelector('.form__btn__play2');
+const scoreSelect = document.getElementById('score__select');
 
-const playOneScore = document.querySelector('.form__score__play1');
-const playTwoScore = document.querySelector('.form__score__play2');
 
-const scoreNum = 5;
-const reserScore =0;
-let playOneNewScore = 0;
-let playTwoNewScore = 0;
+let scoreNum = 5;
+const resetScoreNum =0;
 let isMaxScore = false;
 
-playOneBtn.addEventListener('click', ()=>{
+function updateScores(player, opponent){
     if(!isMaxScore)
     {
-        playOneNewScore += 1;
-        playOneScore.innerText = playOneNewScore;
-        if(playOneNewScore === scoreNum)
+        player.score += 1;
+        player.display.innerText = player.score;
+        
+        if(player.score === scoreNum)
         {
+            player.display.classList.add('has-text-success');
+            opponent.display.classList.add('has-text-danger');
+            player.btn.disabled = true;
+            opponent.btn.disabled = true;
             isMaxScore=true;
         }
     }
-    
-    
-});
+}
 
-playTwoBtn.addEventListener('click', ()=>{
-    if(!isMaxScore)
-    {
-        playTwoNewScore += 1;
-        playTwoScore.innerText = playTwoNewScore;
-        if(playTwoNewScore === scoreNum)
-        {
-            isMaxScore=true;
-        }
-    }
-});
-
-resetBtn.addEventListener('click', ()=>{
+scoreSelect.addEventListener('change', ()=>{
+    scoreNum = parseInt(scoreSelect.value);
+    console.log(scoreSelect.value);
     resetScore();
 })
 
+playOneObj.btn.addEventListener('click', ()=>{
+    updateScores(playOneObj, playTwoObj);
+    
+});
+
+playTwoObj.btn.addEventListener('click', ()=>{
+    updateScores(playTwoObj, playOneObj);
+});
+
+
+resetBtn.addEventListener('click', resetScore)
+
 function resetScore (){
-    playOneScore.innerText = reserScore;
-    playTwoScore.innerText = reserScore;
-    playOneNewScore = reserScore;
-    playTwoNewScore = reserScore;
+    playOneObj.display.innerText = resetScoreNum;
+    playTwoObj.display.innerText = resetScoreNum;
+    playOneObj.score = resetScoreNum;
+    playTwoObj.score = resetScoreNum;
+    playOneObj.display.classList.remove('has-text-danger', 'has-text-success');
+    playTwoObj.display.classList.remove('has-text-danger', 'has-text-success');
     isMaxScore= false;
+    playOneObj.btn.disabled = isMaxScore;
+    playTwoObj.btn.disabled = isMaxScore;
+    
 }

@@ -5,13 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Score Keeper</title>
     <link rel="stylesheet" href="app.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
   </head>
   <body>
     <form class="form">
       <section class="form__btn">
-        <button class="form__btn__play1" type="button">play1</button>
-        <button class="form__btn__reset" type="button">reset</button>
-        <button class="form__btn__play2" type="button">play2</button>
+        <button class="form__btn__play1 button is-info is-medium" type="button">
+          play1
+        </button>
+        <button
+          class="form__btn__reset button is-danger is-medium"
+          type="button"
+        >
+          reset
+        </button>
+        <button
+          class="form__btn__play2 button is-warning is-medium"
+          type="button"
+        >
+          play2
+        </button>
       </section>
 
       <section class="form__score">
@@ -20,9 +36,23 @@
         <div class="form__score__play2">0</div>
       </section>
 
-      <section class="form__maximum">
-        <label for=""></label>
-        input:
+      <section class="form__scoreSelect">
+        <label
+          for="score__select"
+          class="label is-large is-inline has-text-white"
+          >Play to
+        </label>
+        <div class="select is-rounded is-normal is-link">
+          <select name="score" id="score__select">
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+          </select>
+        </div>
       </section>
       <script src="app.js"></script>
     </form>
