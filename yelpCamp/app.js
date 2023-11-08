@@ -9,6 +9,10 @@ const campgrounds = require("./routers/campgrounds.js");
 const reviews = require("./routers/reviews.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LoaclStrategy = require("passport-local");
+const User = require("./models/user.js");
+const userRoutes = require("./routers/users");
 
 mongoose.connect("mongodb://localhost:27017/yelpCamp", {
   useNewUrlParser: true,
@@ -41,15 +45,25 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
+
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LoaclStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
 
+app.use("/", userRoutes);
 app.use("/campgrounds", campgrounds);
 app.use("/campgrounds/:id/reviews", reviews);
 
